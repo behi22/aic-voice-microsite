@@ -1,10 +1,41 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+
+/* ───────────────────────────────────────────────────────────
+   Brand Theme (sourced from alexic.ca root)
+   :root {
+     --primary: #0a0e27;
+     --secondary: #1a1e3a;
+     --accent: #00d4ff;
+     --accent-secondary: #0099ff;
+     --text-primary: #ffffff;
+     --text-secondary: #8892b0;
+     --glow: rgba(0, 212, 255, 0.5);
+   }
+   ─────────────────────────────────────────────────────────── */
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --primary: #0a0e27;
+  --secondary: #1a1e3a;
+  --accent: #00d4ff;
+  --accent-secondary: #0099ff;
+  --text-primary: #ffffff;
+  --text-secondary: #8892b0;
+  --glow: rgba(0, 212, 255, 0.5);
+
+  /* Base bg/fg mapped for Tailwind tokens below */
+  --background: var(--primary);
+  --foreground: var(--text-primary);
 }
 
+@media (prefers-color-scheme: light) {
+  /* If someone forces light mode, keep contrast reasonable */
+  :root {
+    --background: #f8fafc;
+    --foreground: #0a0e27;
+  }
+}
+
+/* Tailwind v4 inline theme tokens */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -12,15 +43,77 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Global base */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
 }
 
 body {
-  background: var(--background);
+  margin: 0;
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), system-ui, -apple-system, Segoe UI,
+    Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol';
+  background: radial-gradient(
+      1200px 600px at 10% -10%,
+      var(--secondary) 0%,
+      var(--primary) 40%,
+      #000000 90%
+    ),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.2), transparent 30%);
+  background-attachment: fixed;
+}
+
+/* Link + selection feel */
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+::selection {
+  background: var(--accent);
+  color: #000;
+}
+
+/* Subtle focus ring */
+:focus-visible {
+  outline: 2px solid color-mix(in oklab, var(--accent), white 20%);
+  outline-offset: 2px;
+  border-radius: 10px;
+}
+
+/* Smooth scroll for in-page anchors */
+html {
+  scroll-behavior: smooth;
+}
+
+.container {
+  width: 100%;
+  max-width: 72rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+#overview {
+  margin-bottom: 50px;
+}
+
+/* Hide scrollbars for cosmetic horizontal scrollers (still scrolls) */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
